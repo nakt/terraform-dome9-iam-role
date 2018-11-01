@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: hashicorp/terraform:0.11.4
+    working_directory: ~/repos/github.com/nakt/terraform-dome9-iam-role
+    steps:
+      - checkout
+      - run:
+          name: "terraform init"
+          command: |
+            terraform init --input=false
+      - run:
+          name: "Execute terraform lint"
+          command: |
+            terraform validate
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
